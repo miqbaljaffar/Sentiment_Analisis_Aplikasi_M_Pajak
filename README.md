@@ -1,77 +1,107 @@
-Analisis Sentimen Aplikasi M-Pajak/CoreTax
-Proyek ini bertujuan untuk menganalisis sentimen pengguna terhadap aplikasi M-Pajak (juga dikenal sebagai CoreTax DJP) berdasarkan ulasan yang diberikan di Google Play Store. Analisis ini menggunakan teknik Natural Language Processing (NLP) dan Machine Learning untuk mengklasifikasikan ulasan ke dalam sentimen positif, negatif, atau netral.
+# 📊 Analisis Sentimen Aplikasi M-Pajak / CoreTax DJP
 
-Insight Utama
-Berdasarkan analisis terhadap lebih dari 4.600 ulasan pengguna, ditemukan beberapa insight penting:
+Proyek ini bertujuan untuk **menganalisis sentimen pengguna** terhadap aplikasi **M-Pajak** (juga dikenal sebagai CoreTax DJP) berdasarkan ulasan yang diambil dari **Google Play Store**.  
+Analisis ini menggunakan **Natural Language Processing (NLP)** dan **Machine Learning** untuk mengklasifikasikan ulasan ke dalam **sentimen positif, negatif, atau netral**.
 
-Sentimen Mayoritas Negatif: Sebagian besar ulasan (sekitar 83%) menunjukkan sentimen negatif. Hal ini mengindikasikan adanya masalah signifikan yang dihadapi pengguna saat menggunakan aplikasi.
+---
 
-Isu Utama Pengguna (Sentimen Negatif): Dari visualisasi Word Cloud, keluhan utama pengguna berpusat pada kata-kata seperti "susah", "error", "ribet", "verif" (verifikasi), dan "npwp". Ini menunjukkan bahwa masalah utama terkait dengan proses verifikasi yang sulit, aplikasi yang sering mengalami kesalahan teknis, dan alur penggunaan yang dianggap rumit, terutama dalam hal pendaftaran NPWP.
+## 📌 Insight Utama
 
-Apresiasi Pengguna (Sentimen Positif): Meskipun jumlahnya lebih sedikit, ulasan positif umumnya mengandung kata-kata seperti "mudah", "bantu", dan "bagus". Ini menandakan bahwa sebagian pengguna merasa aplikasi ini membantu dan mudah digunakan ketika berfungsi dengan baik.
+> Berdasarkan analisis terhadap **4.600+ ulasan pengguna**, ditemukan beberapa poin penting:
 
-Performa Model: Model Deep Learning dengan arsitektur Bidirectional LSTM (BiLSTM) menunjukkan performa terbaik dalam mengklasifikasikan sentimen dengan akurasi pengujian mencapai ~88%. Ini membuktikan bahwa model mampu memahami konteks ulasan pengguna dengan cukup baik.
+- **🚨 Sentimen Mayoritas Negatif**  
+  ±83% ulasan bernada negatif — indikasi adanya masalah signifikan yang dihadapi pengguna.
 
-Metodologi
-Proses analisis dilakukan melalui beberapa tahapan:
+- **⚠ Isu Utama Pengguna** (Negatif)  
+  Berdasarkan Word Cloud, keluhan dominan berkaitan dengan:  
+  `"susah"`, `"error"`, `"ribet"`, `"verif"` (verifikasi), `"npwp"`.  
+  Masalah paling sering muncul:  
+  - Proses verifikasi yang rumit  
+  - Error teknis yang sering terjadi  
+  - Alur penggunaan yang membingungkan (terutama pendaftaran NPWP)
 
-Pengumpulan Data: Data ulasan diambil (scraping) dari Google Play Store untuk aplikasi dengan ID id.go.pajak.djp menggunakan pustaka google-play-scraper.
+- **✅ Apresiasi Pengguna** (Positif)  
+  Ulasan positif biasanya mengandung kata: `"mudah"`, `"bantu"`, `"bagus"`.  
+  Artinya, ketika aplikasi berjalan dengan baik, pengguna menganggapnya **membantu** dan **mudah digunakan**.
 
-Preprocessing Teks: Teks ulasan dibersihkan melalui serangkaian proses untuk mempersiapkannya sebelum masuk ke model, meliputi:
+- **🤖 Performa Model**  
+  Model Deep Learning **Bidirectional LSTM (BiLSTM)** memberikan akurasi tertinggi: **±88%**.  
+  Ini membuktikan kemampuan model memahami konteks ulasan dengan baik.
 
-Case Folding: Mengubah semua teks menjadi huruf kecil.
+---
 
-Cleaning: Menghapus URL, mention, hashtag, angka, dan tanda baca.
+## 🛠 Metodologi Analisis
 
-Slang Word Normalization: Mengubah kata-kata tidak baku menjadi baku (contoh: "gak" -> "tidak").
+### 1. **Pengumpulan Data**
+- Data diambil dari **Google Play Store** menggunakan pustaka [`google-play-scraper`](https://pypi.org/project/google-play-scraper/)  
+- Target aplikasi: `id.go.pajak.djp`
 
-Stopword Removal: Menghapus kata-kata umum yang tidak memiliki makna sentimen (contoh: "yang", "di", "dan").
+### 2. **Preprocessing Teks**
+- **Case Folding** → semua huruf menjadi lowercase  
+- **Cleaning** → hapus URL, mention, hashtag, angka, tanda baca  
+- **Slang Normalization** → ubah kata tidak baku (contoh: *gak* → *tidak*)  
+- **Stopword Removal** → hapus kata umum tanpa makna sentimen (contoh: *yang*, *di*, *dan*)  
+- **Stemming** → ubah kata berimbuhan menjadi kata dasar (contoh: *membantu* → *bantu*) dengan pustaka **Sastrawi**
 
-Stemming: Mengubah kata berimbuhan menjadi kata dasar menggunakan pustaka Sastrawi (contoh: "membantu" -> "bantu").
+### 3. **Pelabelan Sentimen**
+- **Negatif**: ⭐ 1–2  
+- **Netral**: ⭐ 3  
+- **Positif**: ⭐ 4–5
 
-Pelabelan Sentimen: Ulasan diberi label sentimen berdasarkan peringkat bintang yang diberikan pengguna:
+### 4. **Pemodelan**
+Model yang diuji:
+- Logistic Regression
+- Support Vector Machine (SVM)
+- Random Forest
+- **Bidirectional LSTM (BiLSTM)** → performa terbaik
 
-Negatif: 1-2 Bintang
+---
 
-Netral: 3 Bintang
+## 📈 Kesimpulan & Rekomendasi
 
-Positif: 4-5 Bintang
+- **Dominasi Sentimen Negatif** → aplikasi butuh perbaikan signifikan
+- **Masalah utama**: proses verifikasi, stabilitas, UI/UX
 
-Pemodelan: Beberapa model machine learning dan deep learning dilatih dan dievaluasi, termasuk:
+**Rekomendasi untuk Pengembang:**
+1. **Sederhanakan Proses Verifikasi**  
+2. **Perbaiki Stabilitas Aplikasi** (bug & error)  
+3. **Redesign UI/UX** agar lebih intuitif dan tidak “ribet”
 
-Logistic Regression
+---
 
-Support Vector Machine (SVM)
+## 🚀 Cara Menjalankan Proyek
 
-Random Forest
+### **Prasyarat**
+- Python 3.x  
+- Jupyter Notebook / lingkungan Python lain
 
-Bidirectional LSTM (BiLSTM)
-
-Kesimpulan dan Rekomendasi
-Secara keseluruhan, aplikasi M-Pajak/CoreTax masih memiliki banyak ruang untuk perbaikan. Sentimen yang didominasi oleh ulasan negatif menunjukkan adanya kendala teknis dan fungsional yang signifikan.
-
-Rekomendasi untuk Pengembang:
-
-Prioritaskan Perbaikan Proses Verifikasi: Sederhanakan dan percepat alur verifikasi yang sering dikeluhkan pengguna.
-
-Stabilitas Aplikasi: Fokus pada perbaikan bug dan error untuk meningkatkan keandalan aplikasi.
-
-Penyederhanaan Antarmuka (UI/UX): Desain ulang alur penggunaan agar lebih intuitif dan tidak "ribet", terutama untuk layanan krusial seperti pendaftaran NPWP.
-
-Cara Menjalankan Proyek
-Prasyarat:
-
-Python 3.x
-
-Jupyter Notebook atau lingkungan Python lainnya
-
-Instalasi Dependensi:
-Pastikan semua pustaka yang dibutuhkan telah terinstal dengan menjalankan perintah berikut di terminal:
-
+### **Instalasi Dependensi**
+```bash
 pip install -r requirements.txt
+````
 
-Menjalankan Analisis:
+### **Menjalankan Analisis**
 
-Buka dan jalankan file Sentiment_Analisis_Aplikasi_M_Pajak.ipynb di Jupyter Notebook.
+1. Buka file:
 
-Notebook akan secara otomatis melakukan scraping data jika file pajak_reviews_min10k.csv tidak ditemukan.
+   ```bash
+   Sentiment_Analisis_Aplikasi_M_Pajak.ipynb
+   ```
+2. Jalankan di Jupyter Notebook
+3. Jika `pajak_reviews_min10k.csv` tidak ditemukan → proses scraping data akan otomatis dilakukan
+
+---
+
+## 📂 Struktur Folder
+
+```
+📦 m-pajak-sentiment-analysis
+ ┣ 📜 Sentiment_Analisis_Aplikasi_M_Pajak.ipynb
+ ┣ 📜 requirements.txt
+ ┣ 📜 pajak_reviews_min10k.csv (opsional)
+ ┗ 📜 README.md
+```
+
+---
+
+💡 *Analisis ini diharapkan dapat menjadi bahan evaluasi untuk meningkatkan pengalaman pengguna aplikasi M-Pajak / CoreTax.*
